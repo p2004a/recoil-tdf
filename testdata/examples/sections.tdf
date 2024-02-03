@@ -1,0 +1,20 @@
+a = 4;
+
+[section1] {
+	b = 2;
+	c = 4;
+}
+
+[section2] {
+	[sub1] {
+		[sub2] {
+			d = 4;
+		}
+		[sub3] {}
+	}
+}
+
+// And a section with a bunch of weird characters.
+[[[[[[[\"";;; {} \%#&932    asd ] {
+	e = 6;
+}
