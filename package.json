@@ -1,0 +1,40 @@
+{
+  "name": "recoil-tdf",
+  "version": "0.0.1",
+  "description": "Parser and serializer of Recoil/Spring RTS TDF format.",
+  "author": "Marek Rusinowski",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p2004a/recoil-tdf.git"
+  },
+  "exports": "./dist/index.js",
+  "type": "module",
+  "scripts": {
+    "gen-parser": "tspeg src/tdf-grammar.peg src/tdf-parser.ts",
+    "build": "npm run gen-parser && tsc",
+    "test": "npm run gen-parser && tsc && node --test",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^16.1.1",
+    "@tsconfig/strictest": "^2.0.2",
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "tspeg": "^3.3.1",
+    "typescript": "^5.3.3",
+    "wasmoon-lua5.1": "^1.17.1"
+  },
+  "files": [
+    "/dist",
+    "!/dist/*.test.*"
+  ],
+  "types": "./dist/index.d.ts",
+  "sideEffects": false
+}

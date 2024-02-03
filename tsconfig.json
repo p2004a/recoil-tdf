@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": [
+    "@tsconfig/node16/tsconfig.json",
+    "@tsconfig/strictest/tsconfig.json",
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "lib": [
+      "es2021",
+      "dom"  // This isn't exactly correct, but there isn't better solution...
+    ],
+    "declaration": true,
+    "noUnusedParameters": false,
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
