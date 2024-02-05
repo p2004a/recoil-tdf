@@ -31,6 +31,11 @@ test('examples parsing', async (t) => {
 				// pass
 			}
 			assert.deepEqual(actual, expected);
+			if (exampleName.startsWith('ok-')) {
+				assert.notEqual(actual, null, 'OK test must suceed');
+			} else {
+				assert.equal(actual, null, 'FAIL test must fail');
+			}
 		});
 	}
 });

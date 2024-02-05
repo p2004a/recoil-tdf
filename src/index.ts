@@ -1,5 +1,11 @@
-export type TDFObj = { [k: string]: (TDFObj | string) };
+import { parse as tdfParse, TDFObj } from './tdf.peg.js';
+
+export type { TDFObj };
 
 export function parse(tdf: string): TDFObj {
-	return {};
+	const result = tdfParse(tdf);
+	if (!result.ast) {
+		throw new Error(`Failed to parse TDF: ${result.errs[0]!.toString()}`);
+	}
+	return result.ast.root.value;
 }

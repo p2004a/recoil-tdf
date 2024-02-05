@@ -6,7 +6,7 @@ a = 4;
 }
 
 [section2] {
-	[sub1] {
+	[sub1] /* asd */ {
 		[sub2] {
 			d = 4;
 		}
@@ -15,6 +15,9 @@ a = 4;
 }
 
 // And a section with a bunch of weird characters.
-[[[[[[[\"";;; {} \%#&932    asd ] {
+[[[[[[[\"";;; {} \%#&932
+
+
+   asd ] {
 	e = 6;
 }

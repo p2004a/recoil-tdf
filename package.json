@@ -11,7 +11,7 @@
   "exports": "./dist/index.js",
   "type": "module",
   "scripts": {
-    "gen-parser": "tspeg src/tdf-grammar.peg src/tdf-parser.ts",
+    "gen-parser": "tspeg --include-grammar-comment=false src/tdf.peg src/tdf.peg.ts",
     "build": "npm run gen-parser && tsc",
     "test": "npm run gen-parser && tsc && node --test",
     "lint": "eslint src --ext .ts",
