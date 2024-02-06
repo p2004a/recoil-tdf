@@ -4,7 +4,7 @@ import path from 'node:path';
 import { Lua } from 'wasmoon-lua5.1';
 import * as fs from 'node:fs/promises';
 
-import { parse, TDFObj } from './index.js';
+import { parse, serialize, TDFObj } from './index.js';
 
 const lua = await Lua.create();
 
@@ -38,4 +38,67 @@ test('examples parsing', async (t) => {
 			}
 		});
 	}
+});
+
+test('serialization', async (t) => {
+	await t.test('number', () => {
+		assert.equal(serialize({ 'a': 1.3 }), 'a = 1.3;\n');
+		assert.equal(serialize({ 'a': -3 }), 'a = -3;\n');
+	});
+
+	await t.test('boolean', () => {
+		assert.equal(serialize({ 'a': true }), 'a = true;\n');
+	});
+
+	await t.test('strings', () => {
+		assert.equal(serialize({ 'a;': 'asdasd' }), 'a; = asdasd;\n');
+		assert.equal(serialize({ 'a"': ' sd' }), 'a" = " sd";\n');
+		assert.equal(serialize({ 'a]': 'a;a' }), 'a] = "a;a";\n');
+		assert.equal(serialize({ 'a': 'a"a' }), 'a = a"a;\n');
+		assert.equal(serialize({ 'a': '' }), 'a = ;\n');
+	});
+
+	await t.test('sections', () => {
+		assert.equal(serialize({ 'a': { 'b': { 'c': { 'x': 1 } } } }), `[a]
+{
+	[b]
+	{
+		[c]
+		{
+			x = 1;
+		}
+	}
+}
+`);
+	});
+
+	await t.test('map type', () => {
+		const m = new Map();
+		m.set('a', 1);
+		m.set('b', 'asd');
+		assert.equal(serialize(m), 'a = 1;\nb = asd;\n');
+	});
+
+	await t.test('invalid section name', () => {
+		assert.throws(() => { serialize({ 'asd]': { 'a': 1 } }); });
+		assert.throws(() => { serialize({ '': { 'a': 1 } }); });
+	});
+
+	await t.test('invalid entry key name', () => {
+		assert.throws(() => { serialize({ 'asd asd': 1 }); });
+		assert.throws(() => { serialize({ '//asdasd': 1 }); });
+		assert.throws(() => { serialize({ '/*asdasd': 1 }); });
+		assert.throws(() => { serialize({ '[asd': 1 }); });
+		assert.throws(() => { serialize({ 'as==d': 1 }); });
+		assert.throws(() => { serialize({ '': 1 }); });
+	});
+
+	await t.test('invalid value', () => {
+		assert.throws(() => { serialize({ 'a': '";' }); });
+		assert.throws(() => { serialize({ 'a': 'asd\nasd' }); });
+	});
+
+	await t.test('catch duplicate keys', () => {
+		assert.throws(() => { serialize({ 'a': 'asd', 'A': 'bcd' }); });
+	});
 });
