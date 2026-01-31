@@ -83,5 +83,8 @@ function sStrValue(value: string) {
 		}
 		return `"${value}"`;
 	}
+	if (/^"[^"]*"[ \t]*$/.test(value)) {
+		throw new Error('Value not serializable');
+	}
 	return value;
 }

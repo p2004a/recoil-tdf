@@ -56,6 +56,7 @@ test('serialization', async (t) => {
 		assert.equal(serialize({ 'a]': 'a;a' }), 'a] = "a;a";\n');
 		assert.equal(serialize({ a: 'a"a' }), 'a = a"a;\n');
 		assert.equal(serialize({ a: '' }), 'a = ;\n');
+		assert.equal(serialize({ a: '"' }), 'a = ";\n');
 	});
 
 	await t.test('sections', () => {
@@ -118,6 +119,12 @@ test('serialization', async (t) => {
 		});
 		assert.throws(() => {
 			serialize({ a: 'asd\nasd' });
+		});
+		assert.throws(() => {
+			serialize({ a: ' "' });
+		});
+		assert.throws(() => {
+			serialize({ a: '"asd"  ' });
 		});
 	});
 
