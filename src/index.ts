@@ -1,4 +1,4 @@
-import { parse as tdfParse, TDFObj } from './tdf.peg.js';
+import { parse as tdfParse, type TDFObj } from './tdf.peg.js';
 
 export type { TDFObj };
 
@@ -10,9 +10,11 @@ export function parse(tdf: string): TDFObj {
 	return result.ast.root.value;
 }
 
-export type TDFSerializable = {
-	[k: string]: (TDFSerializable | string | number | boolean)
-} | Map<string, TDFSerializable | string | number | boolean>;
+export type TDFSerializable =
+	| {
+			[k: string]: TDFSerializable | string | number | boolean;
+	  }
+	| Map<string, TDFSerializable | string | number | boolean>;
 
 export function serialize(obj: TDFSerializable): string {
 	return sObj('', '', obj);
