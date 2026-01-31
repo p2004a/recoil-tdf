@@ -53,3 +53,12 @@ b = true;
 }
 */
 ```
+
+## Development
+
+### Publish new version
+
+```
+npm version --sign-git-tag patch|minor|major
+git push --follow-tags
+```
