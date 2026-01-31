@@ -1,6 +1,6 @@
 {
   "name": "recoil-tdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parser and serializer of Recoil/Spring RTS TDF format.",
   "author": "Marek Rusinowski",
   "license": "Apache-2.0",
