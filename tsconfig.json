@@ -4,9 +4,7 @@
   "compilerOptions": {
     "outDir": "dist/esm",
     "declaration": true,
-    "noUnusedParameters": false,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
+    "noUnusedParameters": false
   },
   "include": ["src/**/*"],
   "exclude": ["src/**/*.test.ts"]
