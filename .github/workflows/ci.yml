@@ -19,7 +19,7 @@ jobs:
       - run: npm run format:check
       - run: npm pack
         if: matrix.node == 24
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: matrix.node == 24
         with:
           name: package
@@ -32,7 +32,7 @@ jobs:
       matrix:
         node: [14, 16, 18, 20, 22, 24]
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           name: package
       - uses: actions/setup-node@v6
