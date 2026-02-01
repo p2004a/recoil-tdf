@@ -3,17 +3,38 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [20, 22, 24]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - run: npm run build
       - run: npm test
       - run: npm run lint
       - run: npm run format:check
+      - run: npm pack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: "*.tgz"
+
+  test-package:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [14, 16, 18, 20, 22, 24]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: package
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install *.tgz
+      - name: Test ESM import
+        run: node --eval "import('recoil-tdf').then(m => { const r = m.parse('[s]{k=v;}'); if (r.s.k === 'v') console.log('ESM OK'); else process.exit(1); })"
+      - name: Test CJS require
+        run: node --eval "const m = require('recoil-tdf'); const r = m.parse('[s]{k=v;}'); if (r.s.k === 'v') console.log('CJS OK'); else process.exit(1);"
