@@ -11,7 +11,7 @@
   "scripts": {
     "gen-parser": "tspeg --include-grammar-comment=false src/tdf.peg src/tdf.peg.ts",
     "build": "npm run gen-parser && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
-    "test": "npm run gen-parser && tsc -p tsconfig.test.json --noCheck && node --test dist/esm/index.test.js",
+    "test": "npm run gen-parser && tsc -p tsconfig.json --noCheck && node --test dist/esm/index.test.js",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write .",
